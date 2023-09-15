@@ -3,8 +3,16 @@
   color: #314d3e;
 }
 
+.flex-container{
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-child{
+  flex:1;
+}
 .title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   padding: 8px;
 }
@@ -29,10 +37,9 @@
 .bookmark {
   display: flex;
   border-bottom-color: #00254d;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   border-radius: 0.8rem;
-  padding: 3px;
+  padding: 10px;
   padding-bottom: 7px;
   margin-bottom: 7px;
 }
@@ -51,4 +58,56 @@
 .bookmark-controls {
   flex: auto;
   text-align: right;
+  padding-left: 3px;
+}
+
+/* CSS */
+.button-40 {
+  background-color: #111827;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: .75rem 1.2rem;
+  text-align: center;
+  text-decoration: none #6B7280 solid;
+  text-decoration-thickness: auto;
+  transition-duration: .2s;
+  transition-property: background-color,border-color,color,fill,stroke;
+  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+}
+
+.button-40:hover {
+  background-color: #374151;
+}
+
+.button-40:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .button-40 {
+    padding: .75rem 1.5rem;
+  }
+}
+#totalBookmarks{
+  flex: auto;
+  text-align: right;
+  padding-left: 3px;
+  font-size: 16px;
+  font-weight: 600;
+  color:rgb(71, 71, 71);
+
 }

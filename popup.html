@@ -1,10 +1,14 @@
 <link href="popup.css" rel="stylesheet" type="text/css" />
 <script type="module" src="popup.js"></script>
 
-<div class="container">
-  <div>
-    <div class="title">Your bookmarks for this video</div>
-
-    <div class="bookmarks" id="bookmarks"></div>
+<div class="container ">
+  <div class="flex-container">
+    <div class="title flex-child">Saved Articles (<span id="totalBookmarks"></span>)</div>
+   
   </div>
+  <div class="bookmarks" id="bookmarks"></div>
+</div>
+<div class="flex-container">
+  <button id="myBtn" type="button" class="button-40 flex-child">Download Report</button>
+  <button id="clearBtn" type="button" class="button-40 flex-child" style="background-color: rgb(221, 103, 103);">Clear</button>
 </div>

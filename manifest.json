@@ -1,15 +1,15 @@
 {
-    "name": "My YT Bookmarks",
+    "name": "Eininika Report Maker",
     "version": "0.1.0",
-    "description": "Saving timestamps in YT videos",
+    "description": "Creating reports for eirinika website",
     "permissions": ["storage", "tabs"],
-    "host_permissions": ["https://*.youtube.com/*"],
+    "host_permissions": ["https://*.youtube.com/*","https://*.eirinika.gr/*"],
     "background": {
       "service_worker": "background.js"
     },
     "content_scripts": [
       {
-        "matches": ["https://*.youtube.com/*"],
+        "matches": ["https://*.youtube.com/*","https://*.eirinika.gr/*"],
         "js": ["contentScript.js"]
       }
     ],
@@ -21,7 +21,7 @@
           "assets/delete.png",
           "assets/save.png"
         ],
-        "matches": ["https://*.youtube.com/*"]
+        "matches": ["https://*.youtube.com/*","https://*.eirinika.gr/*"]
       }
     ],
     "action": {
@@ -30,7 +30,7 @@
         "24": "assets/ext-icon.png",
         "32": "assets/ext-icon.png"
       },
-      "default_title": "My YT Bookmarks",
+      "default_title": "My eirinika report",
       "default_popup": "popup.html"
     },
     "manifest_version": 3
