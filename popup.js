@@ -2,7 +2,31 @@ async function getActiveTabURL(){
     let queryOptions ={active:true,currentWindow:true};
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;}
-
+const search=()=>{
+  
+  const searchbox= document.getElementById('search-box').value.toUpperCase();
+  const storeitems = document.getElementById("bookmarks");
+  const item = document.querySelectorAll(".bookmark");
+  //console.log(item)
+  let item_names = document.getElementsByClassName("bookmark-title");
+  item_names = Array.from(item_names);
+  for(var i =0;i<item_names.length;i++){
+    
+    let match = item[i].innerText;
+    //console.log(`match is ${match}`);
+    if(match){
+      //let textvalue = match.textContent || match.innerHTML;
+      item_names.forEach((element)=>{
+        if(match.toUpperCase().includes(searchbox)){
+          item[i].style.display = "";
+        }else{
+          item[i].style.display = "none";
+        }
+      })
+      
+    }
+  }
+};
 //Method that makes titles smaller
 const shrinkTitle =(title)=>{
   const seperators = [':','!','-',';'];
@@ -118,7 +142,7 @@ document.addEventListener("DOMContentLoaded",async () => {
     if (activeTab.url.includes("eirinika.gr/article")) {
         chrome.storage.local.get(["bookmarks_key"], (data) => {
           const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
-    
+          document.getElementsByClassName('search-container')[0].addEventListener('keyup',search);
           viewBookmarks(currentVideoBookmarks);
         });
     }else{

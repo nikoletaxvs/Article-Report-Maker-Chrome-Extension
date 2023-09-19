@@ -43,7 +43,7 @@ body{
 .bookmarks {
   margin: 5px 5px;
   padding: 3px;
-  height: 65%;
+  height: 50%;
   overflow-y: auto;
 }
 
@@ -141,4 +141,45 @@ body{
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #1b1b36; 
+}
+.search-container{
+  padding: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-bar{
+  width: 100%;
+  max-width: 700px;
+  background: #F9F8FF;
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 0.8rem;
+  padding:5px 5px;
+}
+.search-bar input{
+  background: transparent;
+  flex:1;
+  border: 0;
+  outline: none;
+  padding: 5px 5px;
+  font-size: 12px;
+  color: #5e6260;
+}
+
+::placeholder{
+  color:#c4c4c4 ;
+}
+.search-bar button img{
+  width: 10px;
+}
+
+.search-bar button{
+  border: 0;
+  border-radius: 25px;
+  width:25px;
+  height: 25px;
+  background: #4169E1;
+  cursor: pointer;
 }
