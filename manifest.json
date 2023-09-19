@@ -1,15 +1,15 @@
 {
-    "name": "Eininika Report Maker",
-    "version": "0.1.0",
+    "name": "Eirinika Report Maker",
+    "version": "0.1.1",
     "description": "Creating reports for eirinika website",
     "permissions": ["storage", "tabs"],
-    "host_permissions": ["https://*.youtube.com/*","https://*.eirinika.gr/*"],
+    "host_permissions": ["https://*.eirinika.gr/*"],
     "background": {
       "service_worker": "background.js"
     },
     "content_scripts": [
       {
-        "matches": ["https://*.youtube.com/*","https://*.eirinika.gr/*"],
+        "matches": ["https://*.eirinika.gr/*"],
         "js": ["contentScript.js"]
       }
     ],
@@ -21,7 +21,7 @@
           "assets/delete.png",
           "assets/save.png"
         ],
-        "matches": ["https://*.youtube.com/*","https://*.eirinika.gr/*"]
+        "matches": ["https://*.eirinika.gr/*"]
       }
     ],
     "action": {

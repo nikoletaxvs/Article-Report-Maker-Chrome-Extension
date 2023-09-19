@@ -2,24 +2,35 @@
   width: 280px;
   color: #314d3e;
 }
-
+body{
+  background-color: #F9F8FF;
+}
+.title{
+  font-size: 15px;
+  padding: 8px;
+}
 .flex-container{
   display: flex;
   justify-content: space-around;
 }
 
+.flex-child-top{
+  margin-left: auto;
+  order: 2;
+}
 .flex-child{
   flex:1;
+  margin: 5px;
 }
-.title {
-  font-size: 16px;
-  font-weight: bold;
+.total {
+  font-size: 10px;
   padding: 8px;
+  padding-top: 13px;
 }
 
 .textbox {
   width: 100%;
-  font-size: 12px;
+  font-size: 10px;
   margin: 0;
   padding: 0px 2px;
 }
@@ -32,6 +43,8 @@
 .bookmarks {
   margin: 5px 5px;
   padding: 3px;
+  height: 65%;
+  overflow-y: auto;
 }
 
 .bookmark {
@@ -45,13 +58,20 @@
 }
 
 .bookmark-title {
+  font-weight: 700;
   padding-left: 2px;
+  width:60%;
 }
-
+.report-article-info{
+  padding: 10px;
+  padding-bottom: 7px;
+  margin-bottom: 7px;
+  display: none;
+}
 .bookmark-controls img {
   margin: 0 4px;
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
 }
 
@@ -61,53 +81,64 @@
   padding-left: 3px;
 }
 
-/* CSS */
-.button-40 {
-  background-color: #111827;
-  border: 1px solid transparent;
-  border-radius: .75rem;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  cursor: pointer;
-  flex: 0 0 auto;
-  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.5rem;
-  padding: .75rem 1.2rem;
-  text-align: center;
-  text-decoration: none #6B7280 solid;
-  text-decoration-thickness: auto;
-  transition-duration: .2s;
-  transition-property: background-color,border-color,color,fill,stroke;
-  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: auto;
-}
-
-.button-40:hover {
-  background-color: #374151;
-}
-
-.button-40:focus {
-  box-shadow: none;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-@media (min-width: 768px) {
-  .button-40 {
-    padding: .75rem 1.5rem;
-  }
-}
 #totalBookmarks{
   flex: auto;
   text-align: right;
   padding-left: 3px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 10px;
   color:rgb(71, 71, 71);
 
+}
+
+/* CSS */
+ .button-38 {
+  background-color: #FFFFFF;
+  border: 0;
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.25rem;
+  padding: .55rem 1rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-38:hover {
+  background-color: rgb(249,250,251);
+}
+
+.button-38:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button-38:focus-visible {
+  box-shadow: none;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #F9F8FF; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1b1b36; 
 }

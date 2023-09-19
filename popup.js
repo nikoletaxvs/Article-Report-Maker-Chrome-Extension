@@ -2,24 +2,41 @@ async function getActiveTabURL(){
     let queryOptions ={active:true,currentWindow:true};
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;}
+
+//Method that makes titles smaller
+const shrinkTitle =(title)=>{
+  const seperators = [':','!','-',';'];
+  let shrankedTitle = title;
+  seperators.forEach((sep)=>{
+    if(shrankedTitle.includes(sep)){
+      console.log(`Seperator ${sep} found`);
+      shrankedTitle = shrankedTitle.split(sep)[0];
+    }
+  });
+  return shrankedTitle;
+};
 // adding a new bookmark row to the popup
 const addNewBookmark = (bookmarks, bookmark) => {
     const bookmarkTitleElement = document.createElement("div");
     const controlsElement = document.createElement("div");
     const newBookmarkElement = document.createElement("div");
-  
-    bookmarkTitleElement.textContent = bookmark.title;
+    const info = document.createElement("div");
+    info.textContent = bookmark.title;
+    info.className="report-article-info " +  bookmark.id;
+    bookmarkTitleElement.textContent = shrinkTitle(bookmark.title);
     bookmarkTitleElement.className = "bookmark-title";
     controlsElement.className = "bookmark-controls";
-  
+    setBookmarkAttributes("down",onExpand, controlsElement);
+    setBookmarkAttributes("link",onLinkClick, controlsElement);
     setBookmarkAttributes("delete", onDelete, controlsElement);
-  
+   
     newBookmarkElement.id = "bookmark-" + bookmark.id;
     newBookmarkElement.className = "bookmark";
   
     newBookmarkElement.appendChild(bookmarkTitleElement);
     newBookmarkElement.appendChild(controlsElement);
     bookmarks.appendChild(newBookmarkElement);
+    bookmarks.appendChild(info);
   };
   
 
@@ -37,37 +54,54 @@ const addNewBookmark = (bookmarks, bookmark) => {
     } else {
       bookmarksElement.innerHTML = '<i class="row">No articles saved</i>';
     }
-  
     return;
   };
+const onExpand = async e=>{
 
-const onPlay = e => {};
+  const parentNode = e.target.parentNode.parentNode;
+  const parentNodeId = parentNode.id.split('-')[1];
+  const elementToHide = document.getElementsByClassName(parentNodeId)[0];
+  if (elementToHide.style.display === "none") {
+    elementToHide.style.display = "block";
+    e.src = "assets/up.png";
+  } else {
+    elementToHide.style.display = "none";
+    e.src = "assets/down.png";
+  }
+}
+const onLinkClick = async e=>{
+  const parentNode = e.target.parentNode.parentNode;
+  const parentNodeId = parentNode.id.split('-')[1];
+  chrome.storage.local.get(["bookmarks_key"], (data) => {
+    let currentArticleBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
+    const element = currentArticleBookmarks.find((element) => element.id ==parentNodeId );
+    window.open(element.articleURL, "_blank");
+  });
+};
 const onDelete = async e => {
-    const activeTab = await getActiveTabURL();
-    
-    const parentNode = e.target.parentNode.parentNode.id;
-    console.log(`parent node id ${parentNode}`)
-    const bookmarkElementToDelete = document.getElementById(
-     parentNode
-    );
-  
-    bookmarkElementToDelete.parentNode.removeChild(bookmarkElementToDelete);
-    chrome.storage.sync.get(["bookmarks_key"], (data) => {
-        const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
-        chrome.tabs.sendMessage(activeTab.id, {
-            type: "DELETE",
-            value: parentNode,
-            bookmarks: currentVideoBookmarks
-          });
-        viewBookmarks(currentVideoBookmarks);
-      });
+  //const activeTab = await getActiveTabURL();
+  //Get parent node
+  const parentNode = e.target.parentNode.parentNode;
+  const parentNodeId = parentNode.id.split('-')[1];
+  console.log(`parent node id ${parentNodeId}`)
+  parentNode.remove();
+  chrome.storage.local.get(["bookmarks_key"], (data) => {
+      let currentArticleBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
+      /*chrome.tabs.sendMessage(activeTab.id, {
+          type: "DELETE",
+          value: parentNode,
+          bookmarks: currentVideoBookmarks
+      });*/
+      currentArticleBookmarks = currentArticleBookmarks.filter((b) => b.id != parentNodeId);
+      chrome.storage.local.set({ ['bookmarks_key']: JSON.stringify(currentArticleBookmarks) });
+      viewBookmarks(currentArticleBookmarks);
+    });
     
   };
 
 
 const setBookmarkAttributes =  (src, eventListener, controlParentElement) => {
     const controlElement = document.createElement("img");
-  
     controlElement.src = "assets/" + src + ".png";
     controlElement.title = src;
     controlElement.addEventListener("click", eventListener);
@@ -77,37 +111,32 @@ const setBookmarkAttributes =  (src, eventListener, controlParentElement) => {
 document.addEventListener("DOMContentLoaded",async () => {
    
     const activeTab = await getActiveTabURL();
-    const currentId = activeTab.url.split("article")[1].split('/')[1]; //getting article id
+   // const currentId = activeTab.url.split("article")[1].split('/')[1]; //getting article id
     
-    console.log(`current article is ${currentId}`)
+    //console.log(`current article is ${currentId}`)
+
     if (activeTab.url.includes("eirinika.gr/article")) {
-        chrome.storage.sync.get(["bookmarks_key"], (data) => {
+        chrome.storage.local.get(["bookmarks_key"], (data) => {
           const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
     
           viewBookmarks(currentVideoBookmarks);
         });
     }else{
-        console.log("no includes eirinika")
-        const container = document.getElementsByClassName("container")[0];
-        container.innerHTML='<div class="title">This page is not eirinika.gr or may not contain an article.</div>'
-    }
+      const container = document.getElementsByClassName("container")[0];
+      container.innerHTML='<div class="title">This page is not eirinika.gr or may not contain an article.</div>'
+      console.log("no includes eirinika");
+      document.getElementById('myBtn').style.display='none';
+      document.getElementById('clearBtn').style.display='none';
+  }
     
 });
+
 const clearBtn = document.getElementById("clearBtn");
 clearBtn.addEventListener("click",async function(e){
-    const activeTab = await getActiveTabURL();
-    
-  
-    
-    chrome.storage.sync.get(["bookmarks_key"], (data) => {
-        const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
-        chrome.tabs.sendMessage(activeTab.id, {
-            type: "CLEAR",
-            value: '',
-            bookmarks: currentVideoBookmarks
-          });
-        viewBookmarks(currentVideoBookmarks);
-      });
+    const activeTab = await getActiveTabURL();    
+    let currentArticleBookmarks=[];
+    chrome.storage.local.set({ ['bookmarks_key']: JSON.stringify(currentArticleBookmarks) });
+    viewBookmarks(currentArticleBookmarks);
 });
 const myBtn = document.getElementById("myBtn");
 myBtn.addEventListener("click",function(e){
@@ -122,14 +151,13 @@ myBtn.addEventListener("click",function(e){
         
     `;
 
-    chrome.storage.sync.get(["bookmarks_key"], (data) => {
-        const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
-        htmlContent += `<p>Συνολικά άρθρα ${currentVideoBookmarks.length}</p><ol>`;
-        currentVideoBookmarks.forEach(bookmark => {
-            console.log(`${bookmark.id} ${bookmark.title} ${bookmark.articleURL} `)
-            htmlContent+= `<li><div><a href="${bookmark.articleURL}">${bookmark.title}</a></div></li>`;
-            
-        });
+    chrome.storage.local.get(["bookmarks_key"], (data) => {
+      const currentVideoBookmarks = data["bookmarks_key"] ? JSON.parse(data["bookmarks_key"]) : [];
+      htmlContent += `<p>Συνολικά άρθρα ${currentVideoBookmarks.length}</p><ol>`;
+      currentVideoBookmarks.forEach(bookmark => {
+        console.log(`${bookmark.id} ${bookmark.title} ${bookmark.articleURL}`);
+        htmlContent += `<li><div><a href="${bookmark.articleURL}">${bookmark.title}</a></div></li>`;
+      });
        
         htmlContent+=`</ol></body>
             </html>
