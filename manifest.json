@@ -1,6 +1,6 @@
 {
     "name": "Eirinika Report Maker",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "description": "Creating reports for eirinika website",
     "permissions": ["storage", "tabs"],
     "host_permissions": ["https://*.eirinika.gr/*"],

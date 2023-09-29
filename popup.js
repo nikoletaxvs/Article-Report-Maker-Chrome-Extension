@@ -168,10 +168,26 @@ myBtn.addEventListener("click",function(e){
     <!DOCTYPE html>
     <html>
     <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital@1&family=Roboto&display=swap" rel="stylesheet">
+        <style>
+          h1{
+            font-family: 'Montserrat', sans-serif;
+          }
+          ol{
+            line-height: 1.6;
+          }
+          li, p{
+            font-family: 'Roboto', sans-serif;
+          }
+          body{
+            margin: 10px;
+          }
+        </style>
         <title>Generated HTML File</title>
     </head>
     <body>
-        <h1>Ειρινικά Report</h1>
+        <h1>Eirinika.gr Report</h1>
         
     `;
 
